@@ -15,8 +15,8 @@ function isoAt(hour: number, minute = 0) {
 }
 
 export default function App() {
-  const [email, setEmail] = useState("demo@example.com");
-  const [password, setPassword] = useState("pass1234");
+  const [email, setEmail] = useState("employee@example.com");
+  const [password, setPassword] = useState("employeepass");
   const [token, setToken] = useState<string | null>(() => localStorage.getItem("token"));
   const [daily, setDaily] = useState<Daily | null>(null);
   const [loading, setLoading] = useState(false);
