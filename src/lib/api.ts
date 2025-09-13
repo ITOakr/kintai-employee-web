@@ -78,3 +78,15 @@ export async function postMyTimeEntry(kind: Kind, happenedAtISO: string, source 
   }
   return r.json();
 }
+
+export async function me() {
+  const token = localStorage.getItem("token");
+  const headers: Record<string, string> = {};
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
+  
+  const r = await fetch(`${BASE}/auth/me`, { headers });
+  if (!r.ok) throw new Error(`GET /auth/me ${r.status}`);
+  return r.json() as Promise<{ id: number; email: string; name: string; role?: string }>;
+}
