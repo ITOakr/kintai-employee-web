@@ -7,7 +7,6 @@ import {
   CardContent,
   Typography,
   Button,
-  TextField,
   Stack,
   Chip,
   Divider,
@@ -21,7 +20,6 @@ import {
   Logout as LogoutIcon,
   Coffee as CoffeeIcon,
   PlayArrow as PlayArrowIcon,
-  Refresh as RefreshIcon
 } from "@mui/icons-material";
 
 type Daily = Awaited<ReturnType<typeof getMyDailyMe>>;
@@ -30,13 +28,12 @@ export default function TimeClockPage() {
   const [daily, setDaily] = useState<Daily | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [date, setDate] = useState<string>(() => tokyoDateString());
 
   async function refresh() {
     try {
       setLoading(true);
       setError(null);
-      const res = await getMyDailyMe(date);
+      const res = await getMyDailyMe(tokyoDateString());
       setDaily(res);
     } catch (e: any) {
       setError(e.message ?? "データの取得に失敗しました");
@@ -47,7 +44,7 @@ export default function TimeClockPage() {
 
   useEffect(() => {
     refresh();
-  }, [date]);
+  }, []);
 
   async function clock(kind: "clock_in" | "clock_out" | "break_start" | "break_end") {
     try {
@@ -84,6 +81,8 @@ export default function TimeClockPage() {
         return "勤務中";
       case "closed":
         return "勤務終了";
+      case "on_break":
+        return "休憩中";
       case "not_started":
         return "未出勤";
       case "inconsistent_data":
@@ -116,7 +115,7 @@ export default function TimeClockPage() {
             勤怠打刻
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            今日の日付: {new Date(date).toLocaleDateString('ja-JP', {
+            今日の日付: {new Date().toLocaleDateString('ja-JP', {
               year: 'numeric',
               month: 'long',
               day: 'numeric',
@@ -133,30 +132,6 @@ export default function TimeClockPage() {
 
         {/* 現在時刻表示 */}
         <CurrentTimeDisplay />
-
-        {/* 日付選択と更新 */}
-        <Card sx={{ mb: 3 }}>
-          <CardContent>
-            <Stack direction="row" spacing={2} alignItems="center">
-              <TextField
-                label="対象日"
-                type="date"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-                size="small"
-                InputLabelProps={{ shrink: true }}
-              />
-              <Button
-                variant="outlined"
-                onClick={refresh}
-                disabled={loading}
-                startIcon={loading ? <CircularProgress size={16} /> : <RefreshIcon />}
-              >
-                更新
-              </Button>
-            </Stack>
-          </CardContent>
-        </Card>
 
         {/* 今日のサマリ */}
         <Card sx={{ mb: 3 }}>
