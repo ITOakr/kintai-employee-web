@@ -210,7 +210,7 @@ export default function TimeClockPage() {
                 variant="contained"
                 size="large"
                 onClick={() => clock("clock_in")}
-                disabled={loading}
+                disabled={loading || daily?.status !== "not_started"}
                 startIcon={loading ? <CircularProgress size={20} color="inherit" /> : <LoginIcon />}
                 sx={{
                   py: 2.5,
@@ -227,7 +227,7 @@ export default function TimeClockPage() {
                 variant="contained"
                 size="large"
                 onClick={() => clock("clock_out")}
-                disabled={loading}
+                disabled={loading || daily?.status !== "open" }
                 startIcon={loading ? <CircularProgress size={20} color="inherit" /> : <LogoutIcon />}
                 sx={{
                   py: 2.5,
@@ -244,7 +244,7 @@ export default function TimeClockPage() {
                 variant="outlined"
                 size="large"
                 onClick={() => clock("break_start")}
-                disabled={loading}
+                disabled={loading || daily?.status !== "open"}
                 startIcon={loading ? <CircularProgress size={20} /> : <CoffeeIcon />}
                 sx={{
                   py: 2.5,
@@ -260,7 +260,7 @@ export default function TimeClockPage() {
                 variant="outlined"
                 size="large"
                 onClick={() => clock("break_end")}
-                disabled={loading}
+                disabled={loading || daily?.status !== "on_break"}
                 startIcon={loading ? <CircularProgress size={20} /> : <PlayArrowIcon />}
                 sx={{
                   py: 2.5,
@@ -278,7 +278,6 @@ export default function TimeClockPage() {
               color="text.secondary"
               sx={{ display: 'block', mt: 2, textAlign: 'center' }}
             >
-              ※ ボタンは現在時刻で打刻します
             </Typography>
           </CardContent>
         </Card>
