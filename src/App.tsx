@@ -46,7 +46,7 @@ export default function App() {
               <Toolbar>
                 <AccessTimeIcon sx={{ mr: 2 }} />
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontWeight: 'bold' }}>
-                  勤怠システム（従業員）
+                  打刻システム
                 </Typography>
                 <Button
                   color="inherit"
