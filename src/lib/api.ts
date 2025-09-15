@@ -64,7 +64,7 @@ export async function getMyDailyMe(date: string) {
     date: string;
     actual: { start: string | null; end: string | null };
     totals: { work: number; break: number; overtime: number; night: number; holiday: number };
-    status: "open" | "closed" | "not_started" | "inconsistent_data";
+    status: "open" | "closed" | "on_break" | "not_started" | "inconsistent_data";
   }>;
 }
 
