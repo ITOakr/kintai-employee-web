@@ -1,11 +1,11 @@
-import { createTheme, ThemeProvider, CssBaseline } from '@mui/material';
+import { createTheme, ThemeProvider, CssBaseline, responsiveFontSizes } from '@mui/material';
 import { jaJP } from '@mui/material/locale';
 import '@fontsource/noto-sans-jp/300.css';
 import '@fontsource/noto-sans-jp/400.css';
 import '@fontsource/noto-sans-jp/500.css';
 import '@fontsource/noto-sans-jp/700.css';
 
-const theme = createTheme({
+let theme = createTheme({
   palette: {
     mode: 'light',
     primary: {
@@ -74,6 +74,8 @@ const theme = createTheme({
     },
   },
 }, jaJP);
+
+theme = responsiveFontSizes(theme);
 
 type Props = {
   children: React.ReactNode;
