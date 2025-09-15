@@ -1,6 +1,7 @@
 // src/pages/LoginPage.tsx
 import { useState } from "react";
 import { login } from "../lib/api";
+import { Link } from "react-router-dom";
 import {
   Box, Card, CardContent, CardActions,
   TextField, Button, Typography,
@@ -82,7 +83,7 @@ export default function LoginPage({ onLoginSuccess, initialError }: Props) {
             </Typography>
           )}
         </CardContent>
-        <CardActions sx={{ justifyContent: "center", px: 4, pb: 4 }}>
+        <CardActions sx={{ flexDirection: 'column', alignItems: 'stretch', px: 4, pb: 4, gap: 2 }}>
           <Button 
             type="submit" 
             variant="contained" 
@@ -92,6 +93,13 @@ export default function LoginPage({ onLoginSuccess, initialError }: Props) {
             sx={{ py: 1.5 }}
           >
             {loginBusy ? "ログイン中…" : "ログイン"}
+          </Button>
+          <Button
+            component={Link}
+            to="/signup"
+            fullWidth
+          >
+            新規ユーザー登録はこちら
           </Button>
         </CardActions>
       </Card>

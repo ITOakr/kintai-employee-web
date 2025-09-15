@@ -15,6 +15,19 @@ export async function login(email: string, password: string) {
   return r.json() as Promise<{ token: string; user: { id: number; email: string; name: string } }>;
 }
 
+export async function signup(name: string, email: string, password: string) {
+  const r = await fetch(`${BASE}/users/signup`, {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+    body: new URLSearchParams({ "user[name]": name, "user[email]": email, "user[password]": password }),
+  });
+  if (!r.ok) {
+    const body = await r.json();
+    throw new Error(body?.errors?.join(', '));
+  }
+  return r.json();
+}
+
 // Asia/Tokyo の YYYY-MM-DD を安全に作る（UTCズレ防止）
 export function tokyoDateString(date = new Date()) {
   const f = new Intl.DateTimeFormat("ja-JP", { timeZone: "Asia/Tokyo", year: "numeric", month: "2-digit", day: "2-digit" });

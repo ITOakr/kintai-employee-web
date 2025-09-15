@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import ThemeWrapper from "./components/ThemeWrapper";
+import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
 import TimeClockPage from "./pages/TimeClockPage";
 import {
@@ -64,6 +65,8 @@ export default function App() {
             flexDirection: 'column'
           }}>
             <Routes>
+
+              <Route path="/signup" element={<SignupPage />} />
               {/* ログインページ */}
               <Route path="/login" element={
                 token ? <Navigate to="/" replace /> : 
