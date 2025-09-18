@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getMyDailyMe, postMyTimeEntry, nowTokyoISO, tokyoDateString } from "../lib/api";
+import { getMyDailyMe, postMyTimeEntry, nowTokyoISO, tokyoDateString, me } from "../lib/api";
 import CurrentTimeDisplay from "../components/CurrentTimeDisplay";
 import {
   Box,
@@ -12,7 +12,12 @@ import {
   Divider,
   CircularProgress,
   Alert,
-  Container
+  Container,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions
 } from "@mui/material";
 import {
   AccessTime as AccessTimeIcon,
@@ -25,16 +30,23 @@ import {
 type Daily = Awaited<ReturnType<typeof getMyDailyMe>>;
 
 export default function TimeClockPage() {
+  const [userName, setUserName] = useState<string | null>(null);
   const [daily, setDaily] = useState<Daily | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const [openDialog, setOpenDialog] = useState(false);
 
   async function refresh() {
     try {
       setLoading(true);
       setError(null);
-      const res = await getMyDailyMe(tokyoDateString());
-      setDaily(res);
+      const [dailyRes, userRes] = await Promise.all([
+        getMyDailyMe(tokyoDateString()),
+        me()
+      ]);
+      setUserName(userRes.name);
+      setDaily(dailyRes);
     } catch (e: any) {
       setError(e.message ?? "データの取得に失敗しました");
     } finally {
@@ -47,6 +59,14 @@ export default function TimeClockPage() {
   }, []);
 
   async function clock(kind: "clock_in" | "clock_out" | "break_start" | "break_end") {
+    if (kind === "clock_out") {
+      setOpenDialog(true);
+      return;
+    }
+    await executeClock(kind);
+  }
+  
+  async function executeClock(kind: "clock_in" | "clock_out" | "break_start" | "break_end") {
     try {
       setLoading(true);
       setError(null);
@@ -59,6 +79,15 @@ export default function TimeClockPage() {
       setLoading(false);
     }
   }
+
+  const handleDialogClose = () => {
+    setOpenDialog(false);
+  };
+
+  const handleConfirmClockOut = async () => {
+    setOpenDialog(false);
+    await executeClock("clock_out");
+  };
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -115,12 +144,7 @@ export default function TimeClockPage() {
             勤怠打刻
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            今日の日付: {new Date().toLocaleDateString('ja-JP', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-              weekday: 'long'
-            })}
+            {userName ? `${userName} さん、ようこそ` : 'ようこそ'}
           </Typography>
         </Box>
 
@@ -281,6 +305,27 @@ export default function TimeClockPage() {
             </Typography>
           </CardContent>
         </Card>
+        <Dialog
+          open={openDialog}
+          onClose={handleDialogClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {"退勤の確認"}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              本当に退勤しますか？
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleDialogClose}>キャンセル</Button>
+            <Button onClick={handleConfirmClockOut} autoFocus>
+              はい
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Container>
     </Box>
   );

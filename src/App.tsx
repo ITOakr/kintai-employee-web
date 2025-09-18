@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import {
   AccessTime as AccessTimeIcon,
-  Logout as LogoutIcon
+  Logout as LogoutIcon,
 } from "@mui/icons-material";
 
 export default function App() {
