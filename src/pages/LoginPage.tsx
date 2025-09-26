@@ -14,8 +14,8 @@ type Props = {
 };
 
 export default function LoginPage({ onLoginSuccess, initialError }: Props) {
-  const [email, setEmail] = useState(""); //employee1@example.com
-  const [password, setPassword] = useState(""); //employeepass
+  const [email, setEmail] = useState("employee1@example.com"); //employee1@example.com
+  const [password, setPassword] = useState("employeepass"); //employeepass
   const [loginBusy, setLoginBusy] = useState(false);
   const [authErr, setAuthErr] = useState<string | null>(initialError);
 
