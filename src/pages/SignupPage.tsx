@@ -40,6 +40,7 @@ export default function SignupPage() {
         alignItems: "center",
         justifyContent: "center",
         p: 2,
+        bgcolor: 'primary.main'
       }}
     >
       <Card sx={{ 
