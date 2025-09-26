@@ -35,73 +35,74 @@ export default function LoginPage({ onLoginSuccess, initialError }: Props) {
   }
 
   return (
-    <Box 
+    <Box
       sx={{
         height: "100vh",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         p: 2,
+        bgcolor: 'primary.main'
       }}
     >
-      <Card sx={{ 
-        width: 420, 
-        maxWidth: "100%",
-        boxShadow: '0 8px 32px rgba(0,0,0,0.1)'
-      }} component="form" onSubmit={doLogin}>
-        <CardContent sx={{ p: 4 }}>
-          <Typography variant="h4" component="h1" gutterBottom align="center" sx={{ mb: 3, fontWeight: 'bold' }}>
-            勤怠システム
-          </Typography>
-          <Typography variant="body2" color="text.secondary" align="center" sx={{ mb: 3 }}>
-            従業員用ログイン
-          </Typography>
-          <Stack spacing={3}>
-            <TextField
-              label="メール"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              autoComplete="username"
-              fullWidth
-              variant="outlined"
-            />
-            <TextField
-              label="パスワード"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              autoComplete="current-password"
-              fullWidth
-              variant="outlined"
-            />
-          </Stack>
-          {authErr && (
-            <Typography color="error" variant="body2" sx={{ mt: 2, textAlign: 'center' }}>
-              {authErr}
+      <Stack spacing={4} alignItems="center">
+        <img src="/FLan_logo.png" alt="logo" style={{ width: '250px', maxWidth: '80%' }} />
+        <Card sx={{
+          width: 420,
+          maxWidth: "100%",
+          mt: 4
+        }} component="form" onSubmit={doLogin}>
+          <CardContent sx={{ p: 4 }}>
+            <Typography variant="h4" component="h1" gutterBottom align="center" sx={{ mb: 3, fontWeight: 'bold' }}>
+              従業員用ログイン
             </Typography>
-          )}
-        </CardContent>
-        <CardActions sx={{ flexDirection: 'column', alignItems: 'stretch', px: 4, pb: 4, gap: 2 }}>
-          <Button 
-            type="submit" 
-            variant="contained" 
-            disabled={loginBusy}
-            fullWidth
-            size="large"
-            sx={{ py: 1.5 }}
-          >
-            {loginBusy ? "ログイン中…" : "ログイン"}
-          </Button>
-          <Button
-            component={Link}
-            to="/signup"
-            fullWidth
-          >
-            新規ユーザー登録はこちら
-          </Button>
-        </CardActions>
-      </Card>
+            <Stack spacing={3}>
+              <TextField
+                label="メール"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                autoComplete="username"
+                fullWidth
+                variant="outlined"
+              />
+              <TextField
+                label="パスワード"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                autoComplete="current-password"
+                fullWidth
+                variant="outlined"
+              />
+            </Stack>
+            {authErr && (
+              <Typography color="error" variant="body2" sx={{ mt: 2, textAlign: 'center' }}>
+                {authErr}
+              </Typography>
+            )}
+          </CardContent>
+          <CardActions sx={{ flexDirection: 'column', alignItems: 'stretch', px: 4, pb: 4, gap: 2 }}>
+            <Button
+              type="submit"
+              variant="contained"
+              disabled={loginBusy}
+              fullWidth
+              size="large"
+              sx={{ py: 1.5 }}
+            >
+              {loginBusy ? "ログイン中…" : "ログイン"}
+            </Button>
+            <Button
+              component={Link}
+              to="/signup"
+              fullWidth
+            >
+              新規ユーザー登録はこちら
+            </Button>
+          </CardActions>
+        </Card>
+      </Stack>
     </Box>
   );
 }
